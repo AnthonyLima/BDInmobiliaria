@@ -1,0 +1,102 @@
+create table TipoDoc(
+ID int not null,
+Descripcion varchar(10)
+constraint pk_id_TipoDoc primary key(ID)
+);
+
+create TABLE [dbo].[Persona](
+	[ID] [bigint] NOT NULL,
+	[Id_TDoc][int]not null,
+	[Nombres] [nvarchar](40) NOT NULL,
+	[Apellidos] [nvarchar](50) NOT NULL,
+	[FechaNac] [date] NOT NULL,
+	[Direccion][nvarchar](50) not null,
+	[Telefono_fijo] [int] NOT NULL,
+	[Telefono_Movil] [bigint] NOT NULL,
+	[Correo] [nvarchar](50) NOT NULL,
+	[Nacionalidad] [nvarchar](20) NOT NULL
+    constraint pk_id_cliente primary key(ID),
+	constraint fk_tipodoc_persona foreign key(Id_TDoc) references TipoDoc(ID)
+);
+
+create table Cliente(
+ID bigint not null,
+descripcion nvarchar(100) not null
+constraint pk_cliente primary key(ID),
+constraint fk_id_cliente foreign key(ID) references Persona(ID)
+);
+
+create table Empleado(
+ID bigint not null,
+cargo nvarchar(25) not null,
+fechaContratacion date,
+salario money,
+observaciones nvarchar(100) not null
+constraint pk_empleado primary key(ID),
+constraint fk_id_empleado foreign key(ID) references Persona(ID)
+)
+
+create table Departamento(
+ID int not null,
+Nombre nvarchar(25) not null,
+descripccion nvarchar(80)
+constraint pk_Departamento primary key(ID));
+
+create table Provincia(
+ID int not null,
+ID_Depart int not null,
+Nombre nvarchar(25) not null,
+descripcion nvarchar(80)
+constraint pk_id_Provincia primary key(ID),
+constraint fk_id_departamento foreign key(ID_Depart) references Departamento(ID));
+
+create table Distrito(
+ID int not null,
+ID_Prov int not null,
+Nombre nvarchar(25) not null,
+Descripcion nvarchar(80)
+constraint pk_id_distrito primary key(ID),
+constraint fk_id_provincia foreign key(ID_Prov) references Provincia(ID));
+
+create table Direccion(
+ID int not null,
+ID_Dis int not null,
+descripcion nvarchar(80)
+constraint pk_id_direccion primary key(ID),
+constraint fk_id_distrito foreign key(ID_Dis) references Distrito(ID));
+
+create table propiedad
+(ID int not null,
+Titulo_Propiedad varchar(20) not null,
+MtsCuadrados int,
+mtsConstruccion int,
+ID_Direccion int not null,
+Baños int,
+Habitaciones int,
+PrecioVenta money,
+observaciones nvarchar(100),
+estadoVenta bit,
+FechaConstruccion date,
+FechaInscripcion date
+constraint pk_id_casa primary key (ID),
+constraint fk_id_direccion foreign key(ID_Direccion) references Direccion(ID));
+
+
+
+create table Citas
+(ID int not null,
+fecha_creacion date,
+descripcion varchar(200)
+constraint pk_id_citas primary key(id));
+
+ create table detalle_cita(
+ ID int not null,
+ ID_cita int,
+ fecha_cita date,
+ lugar varchar(100),
+ ID_Cliente int,
+ ID_Empleado int
+ constraint pk_id_detcita primary key(ID),
+ constraint fk_id_cliente foreign key(ID_Cliente) REFERENCES Cliente(ID),
+ constraint fk_id_vendedor foreign key(ID_Empleado) REFERENCES Empleado(id),
+ constraint fk_id_cita_detcita foreign key(ID_cita) REFERENCES Citas(ID));

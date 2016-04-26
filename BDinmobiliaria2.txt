@@ -68,19 +68,19 @@ constraint fk_id_distrito foreign key(ID_Dis) references Distrito(ID));
 create table propiedad
 (ID int not null,
 Titulo_Propiedad varchar(20) not null,
-MtsCuadrados int,
-mtsConstruccion int,
+MtsCuadrados int not null,
+mtsConstruccion int not null,
 ID_Direccion int not null,
 Baños int,
-Habitaciones int,
+Habitaciones int not null,
 PrecioVenta money,
+PrecioAdquirido money not null,
 observaciones nvarchar(100),
-estadoVenta bit,
+estadoVenta bit not null,
 FechaConstruccion date,
 FechaInscripcion date
 constraint pk_id_casa primary key (ID),
 constraint fk_id_direccion foreign key(ID_Direccion) references Direccion(ID));
-
 
 
 create table Citas
@@ -89,14 +89,17 @@ fecha_creacion date,
 descripcion varchar(200)
 constraint pk_id_citas primary key(id));
 
- create table detalle_cita(
- ID int not null,
- ID_cita int,
- fecha_cita date,
- lugar varchar(100),
- ID_Cliente int,
- ID_Empleado int
- constraint pk_id_detcita primary key(ID),
- constraint fk_id_cliente foreign key(ID_Cliente) REFERENCES Cliente(ID),
- constraint fk_id_vendedor foreign key(ID_Empleado) REFERENCES Empleado(id),
- constraint fk_id_cita_detcita foreign key(ID_cita) REFERENCES Citas(ID));
+create table detalle_cita(
+ID int not null,
+ID_cita int not null,
+fecha_cita date not null,
+motivo nvarchar(30) not null,
+lugar varchar(100),
+ID_Cliente int,
+ID_Empleado int
+constraint pk_id_detcita primary key(ID),
+constraint fk_id_cliente foreign key(ID_Cliente) REFERENCES Cliente(ID),
+constraint fk_id_vendedor foreign key(ID_Empleado) REFERENCES Empleado(ID),
+constraint fk_id_cita_detcita foreign key(ID_cita) REFERENCES Citas(ID));
+
+

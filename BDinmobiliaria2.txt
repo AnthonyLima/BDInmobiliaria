@@ -102,4 +102,7 @@ constraint fk_id_cliente foreign key(ID_Cliente) REFERENCES Cliente(ID),
 constraint fk_id_vendedor foreign key(ID_Empleado) REFERENCES Empleado(ID),
 constraint fk_id_cita_detcita foreign key(ID_cita) REFERENCES Citas(ID));
 
-
+create table venta(
+ID int not null,
+fecha_Creacion date not null,
+)

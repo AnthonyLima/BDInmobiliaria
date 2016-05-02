@@ -126,19 +126,19 @@ constraint fk_id_casa_detventa foreign key(ID_propiedad)
 constraint fk_id_pago_detventa foreign key(ID_venta)
     REFERENCES Venta(ID))
 
-create table permiso(
+create table Rol(
 ID int not null,
 nombre char(1)not null,
 descripcion nvarchar(100) not null
 constraint pk_permiso primary key(ID))
 
-create table cuenta(
+create table Cuenta(
 ID int not null,
 nombre nvarchar(40) not null,
 contrasena nvarchar(40) not null,
 fecha_ingreso date,
-ID_permiso int not null,
+ID_rol int not null,
 constraint pk_cuenta primary key(ID),
-constraint fk_ID_permiso foreign key(ID_permiso)
-    REFERENCES permiso(ID)
+constraint fk_ID_rol foreign key(ID_rol)
+    REFERENCES Rol(ID)
 )

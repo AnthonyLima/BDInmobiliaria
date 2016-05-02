@@ -133,12 +133,11 @@ descripcion nvarchar(100) not null
 constraint pk_permiso primary key(ID))
 
 create table Cuenta(
-ID int not null,
-nombre nvarchar(40) not null,
-contrasena nvarchar(40) not null,
+usuario nvarchar(40) not null,
+clave nvarchar(40) not null,
 fecha_ingreso date,
 ID_rol int not null,
-constraint pk_cuenta primary key(ID),
+constraint pk_cuenta primary key(usuario),
 constraint fk_ID_rol foreign key(ID_rol)
     REFERENCES Rol(ID)
 )

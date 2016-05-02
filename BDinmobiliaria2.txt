@@ -83,7 +83,7 @@ constraint pk_id_casa primary key (ID),
 constraint fk_id_direccion foreign key(ID_Direccion) references Direccion(ID));
 
 
-create table Citas
+create table Cita
 (ID int not null,
 fecha_creacion date,
 descripcion varchar(200)
@@ -100,9 +100,28 @@ ID_Empleado int
 constraint pk_id_detcita primary key(ID),
 constraint fk_id_cliente foreign key(ID_Cliente) REFERENCES Cliente(ID),
 constraint fk_id_vendedor foreign key(ID_Empleado) REFERENCES Empleado(ID),
-constraint fk_id_cita_detcita foreign key(ID_cita) REFERENCES Citas(ID));
+constraint fk_id_cita_detcita foreign key(ID_cita) REFERENCES Cita(ID));
 
-create table venta(
-ID int not null,
-fecha_Creacion date not null,
-)
+create table Venta(
+id int not null,
+monto_total money,
+descripcion nvarchar(100),
+cuotas (int) 
+constraint pk_ventaid primary key(id))
+
+
+create table Detalle_Venta(
+id int not null,
+id_pago int,
+id_cliente int,
+id_propiedad int,
+monto_dado money,
+fecha_pago date,
+descripcion varchar(40)
+constraint pk_id_detventa primary key(id),
+constraint fk_id_cliente_detventa foreign key(id_cliente)
+    REFERENCES Cliente(Id),
+constraint fk_id_casa_detventa foreign key(id_propiedad)
+    REFERENCES propiedad(Id),
+constraint fk_id_pago_detventa foreign key(id_venta)
+    REFERENCES Venta(id))

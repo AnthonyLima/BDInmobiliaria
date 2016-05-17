@@ -120,7 +120,7 @@ create table Usuarios(
 ID int not null,
 Usuario nvarchar(20) not null,
 Clave nvarchar(25) not null,
-NombreYApellidos nvarhcar(60) not null
+NombreYApellidos nvarchar(60) not null
 constraint pk_Usuarios primary key(id));
 
 create table Roles(
@@ -128,7 +128,7 @@ ID int not null,
 Nombre nvarchar(10) not null
 constraint pk_Roles primary key(ID));
 
-createa table UsuariosRoles(
+create table UsuariosRoles(
 ID_Usuarios int not null,
 ID_Roles int not null
 constraint pk_UsuariosRoles primary key(ID_Usuarios,ID_Roles),
@@ -142,7 +142,7 @@ ID int not null,
 Nombre nvarchar(20) not null
 constraint pk_Perfiles primary key(ID));
 
-creatae table UsuariosPerfiles(
+create table UsuariosPerfiles(
 ID_Usuarios int not null,
 ID_Perfiles int not null
 constraint pk_UsuariosPerfiles primary key(ID_Usuarios,ID_Perfiles),
@@ -171,7 +171,7 @@ nombre nvarchar(10) not null,
 des_const int,
 ID_MenuPadre int,
 ID_Aplicacion int not null
-constraint pk_Menus foreing key(ID),
+constraint pk_Menus primary key(ID),
 constraint fk_id_menuPadre foreign key(ID_MenuPadre)
  references Menus(ID),
 constraint fk_id_aplicaciones foreign key(ID_Aplicacion)
@@ -184,21 +184,21 @@ constraint fk_id_aplicaciones foreign key(ID_Aplicacion)
  TipoPermiso char(1) not null
  constraint pk_PermisosUsuarios primary key(ID_Usuarios,ID_Menus, ID_Opciones)
  constraint fk_id_users foreign key(ID_Usuarios)
-  references Usuarios(ID)
+  references Usuarios(ID),
  constraint fk_id_menus foreign key(ID_Menus)
-  references Menus(ID)
+  references Menus(ID),
  constraint fk_id_opciones foreign key(ID_Opciones)
   references Opciones(ID));
 
-createa table PermisosPerfiles(
+create table PermisosPerfiles(
 ID_Perfil int not null,
 ID_Menu int not null,
 ID_Opcion int not null,
 TipoPermisos char(1) not null
-constraint pk_PermisosPerfiles priamry key(ID_Perfil,ID_Menu,ID_Opcion)
+constraint pk_PermisosPerfiles primary key(ID_Perfil,ID_Menu,ID_Opcion)
 constraint fk_id_perfil foreign key(ID_Perfil)
  references Perfiles(ID),
 constraint fk_id_menu foreign key(ID_Menu)
- references Menus(ID)
+ references Menus(ID),
 constraint fk_id_opcion foreign key(ID_Opcion)
  references Opciones(ID));

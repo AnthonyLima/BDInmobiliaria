@@ -96,7 +96,7 @@ create table Cliente(
 ID bigint IDENTITY(1,1) not null ,
 descripcion nvarchar(100) not null
 constraint pk_cliente primary key(ID),
-constraint fk_id_cliente foreign key(ID) references Persona(ID)
+constraint fk_cliente_persona foreign key(ID) references Persona(ID)
 );
 
 create proc Cliente_insert
@@ -132,7 +132,7 @@ fechaContratacion date,
 salario money,
 observaciones nvarchar(100) not null
 constraint pk_empleado primary key(ID),
-constraint fk_id_empleado foreign key(ID) references Persona(ID)
+constraint fk_empleado_persona foreign key(ID) references Persona(ID)
 )
 
 create proc Empleado_insert
@@ -207,6 +207,7 @@ ID int IDENTITY(1,1) not null,
 ID_Depart int not null,
 Nombre nvarchar(25) not null,
 descripcion nvarchar(80)
+<<<<<<< HEAD
 constraint pk_id_Provincia primary key(ID),
 constraint fk_id_departamento foreign key(ID_Depart) references Departamento(ID));
 
@@ -225,6 +226,10 @@ create proc Provincia_update
 as begin
 update Provincia set nombre=@nombre, descripcion=@descripcion where id = @id
 end
+=======
+constraint pk_provincia primary key(ID),
+constraint fk_provincia_depart foreign key(ID_Depart) references Departamento(ID));
+>>>>>>> origin/master
 
 create proc Provincia_delete
 @id int
@@ -252,8 +257,8 @@ observaciones nvarchar(100),
 estadoVenta bit not null,
 FechaConstruccion date,
 FechaInscripcion date
-constraint pk_id_casa primary key (ID),
-constraint fk_id_provincia foreign key(ID_Provincia) references Provincia(ID));
+constraint pk_propiedad primary key (ID),
+constraint fk_propiedad_provincia foreign key(ID_Provincia) references Provincia(ID));
 
 create proc Propiedad_insert
 @titulo_propiedad text,
@@ -311,8 +316,13 @@ end
 
 
 create table Cita
+<<<<<<< HEAD
 (ID int IDENTITY(1,1) not null,
 fecha_creacion date,
+=======
+(ID int not null,
+fecha_creacion date not null,
+>>>>>>> origin/master
 descripcion varchar(200)
 constraint pk_id_citas primary key(id));
 
@@ -349,6 +359,7 @@ ID int IDENTITY(1,1) not null,
 ID_cita int not null,
 fecha_cita date not null,
 motivo nvarchar(30) not null,
+<<<<<<< HEAD
 lugar varchar(100),
 ID_Cliente bigint,
 ID_Empleado bigint
@@ -356,6 +367,15 @@ constraint pk_id_detcita primary key(ID),
 constraint fk_id_cliente_det foreign key(ID_Cliente) REFERENCES Cliente(ID),
 constraint fk_id_vendedor_det foreign key(ID_Empleado) REFERENCES Empleado(ID),
 constraint fk_id_cita_detcita foreign key(ID_cita) REFERENCES Cita(ID));
+=======
+lugar varchar(100) not null,
+ID_Cliente int not null,
+ID_Empleado int not null
+constraint pk_detcita primary key(ID),
+constraint fk_detcita_cliente foreign key(ID_Cliente) REFERENCES Cliente(ID),
+constraint fk_detcita_vendedor foreign key(ID_Empleado) REFERENCES Empleado(ID),
+constraint fk_detcita_cita foreign key(ID_cita) REFERENCES Cita(ID));
+>>>>>>> origin/master
 
 create proc detalle_cita_insert
 @id_cita int,
@@ -400,6 +420,7 @@ ID_cliente bigint,
 ID_propiedad int,
 monto_total money not null,
 descripcion nvarchar(100),
+<<<<<<< HEAD
 cuotas int not null
 constraint pk_ventaid primary key(ID),
 constraint fk_id_cliente_venta foreign key(ID_cliente) references Cliente(ID),
@@ -437,6 +458,12 @@ as begin
 select * from venta
 end
 
+=======
+cuotas (int) not null
+constraint pk_venta primary key(ID),
+constraint fk_venta_cliente foreign key(ID_cliente) references Cliente(ID),
+constraint fk_venta_propiedad foreign key(ID_propiedad) references propiedad(ID));
+>>>>>>> origin/master
 
 
 create table Detalle_Venta(
@@ -445,8 +472,8 @@ ID_venta int,
 monto_dado money,
 fecha_pago date,
 descripcion varchar(40)
-constraint pk_id_detventa primary key(ID),
-constraint fk_id_pago_detventa foreign key(ID_venta)
+constraint pk_detventa primary key(ID),
+constraint fk_detventa_venta foreign key(ID_venta)
     REFERENCES Venta(ID));
 
 create proc detalle_venta_insert

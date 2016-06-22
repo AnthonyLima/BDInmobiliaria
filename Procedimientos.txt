@@ -6,4 +6,16 @@ begin
  select	u.usuario,u.Clave from Usuarios as u
  where u.usuario = @Usuario and u.Clave = @Clave
 end
+
+create proc PGIUsuario
+@ID as int,
+@Usuario nvarchar(20),
+@Clave nvarchar(25),
+@NombreYApellidos nvarchar(60)
+as
+begin
+ insert into Usuarios(ID,Usuario,Clave,NombreYApellidos)
+ values(@ID,@Usuario,@Clave,@NombreYApellidos)
+end;
+
 -------------------------------------------

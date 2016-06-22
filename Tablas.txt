@@ -1,0 +1,201 @@
+create table TipoDoc(
+ID int IDENTITY(1,1) not null,
+Descripcion varchar(10)
+constraint pk_id_TipoDoc primary key(ID)
+);
+
+create TABLE Persona(
+	[ID] [bigint] IDENTITY(1,1) NOT NULL,
+	[Id_TDoc][int]not null,
+	[Nombres] [nvarchar](40) NOT NULL,
+	[Apellidos] [nvarchar](50) NOT NULL,
+	[FechaNac] [date] NOT NULL,
+	[Direccion][nvarchar](50) not null,
+	[Telefono_fijo] [int] NOT NULL,
+	[Telefono_Movil] [bigint] NOT NULL,
+	[Correo] [nvarchar](50) NOT NULL,
+	[Nacionalidad] [nvarchar](20) NOT NULL
+    constraint pk_id_cliente primary key(ID),
+	constraint fk_tipodoc_persona foreign key(Id_TDoc) references TipoDoc(ID)
+);
+
+
+create table Cliente(
+ID bigint IDENTITY(1,1) not null ,
+descripcion nvarchar(100) not null
+constraint pk_cliente primary key(ID),
+constraint fk_cliente_persona foreign key(ID) references Persona(ID)
+);
+
+create table Empleado(
+ID bigint IDENTITY (1,1) not null,
+cargo nvarchar(25) not null,
+fechaContratacion date,
+salario money,
+observaciones nvarchar(100) not null
+constraint pk_empleado primary key(ID),
+constraint fk_empleado_persona foreign key(ID) references Persona(ID)
+);
+
+create table Departamento(
+ID int IDENTITY(1,1) not null,
+Nombre nvarchar(25) not null,
+descripcion nvarchar(80)
+constraint pk_Departamento primary key(ID));
+
+create table Provincia(
+ID int IDENTITY(1,1) not null,
+ID_Depart int not null,
+Nombre nvarchar(25) not null,
+descripcion nvarchar(80)
+constraint pk_id_Provincia primary key(ID),
+constraint fk_id_departamento foreign key(ID_Depart) references Departamento(ID));
+
+create table Propiedad(
+ID int IDENTITY(1,1) not null,
+Titulo_Propiedad varchar(20) not null,
+MtsCuadrados int not null,
+mtsConstruccion int not null,
+Direccion nvarchar(100) not null,
+ID_Provincia int not null,
+CantBanos int,
+Habitaciones int not null,
+PrecioVenta money,
+PrecioAdquirido money not null,
+observaciones nvarchar(100),
+estadoVenta bit not null,
+FechaConstruccion date,
+FechaInscripcion date
+constraint pk_propiedad primary key (ID),
+constraint fk_propiedad_provincia foreign key(ID_Provincia) references Provincia(ID));
+
+create table Cita
+(ID int IDENTITY(1,1) not null,
+fecha_creacion date not null,
+descripcion varchar(200)
+constraint pk_id_citas primary key(id));
+
+create table detalle_cita(
+ID int IDENTITY(1,1) not null,
+ID_cita int not null,
+fecha_cita date not null,
+motivo nvarchar(30) not null,
+lugar varchar(100),
+ID_Cliente bigint,
+ID_Empleado bigint
+constraint pk_id_detcita primary key(ID),
+constraint fk_id_cliente_det foreign key(ID_Cliente) REFERENCES Cliente(ID),
+constraint fk_id_vendedor_det foreign key(ID_Empleado) REFERENCES Empleado(ID),
+constraint fk_id_cita_detcita foreign key(ID_cita) REFERENCES Cita(ID));
+
+create table Venta(
+ID int IDENTITY(1,1) not null,
+ID_cliente bigint,
+ID_propiedad int,
+monto_total money not null,
+descripcion nvarchar(100),
+cuotas int not null
+constraint pk_ventaid primary key(ID),
+constraint fk_id_cliente_venta foreign key(ID_cliente) references Cliente(ID),
+constraint fk_id_propiedad foreign key(ID_propiedad) references Propiedad(ID));
+
+create table Detalle_Venta(
+ID int IDENTITY(1,1) not null,
+ID_venta int,
+monto_dado money,
+fecha_pago date,
+descripcion varchar(40)
+constraint pk_detventa primary key(ID),
+constraint fk_detventa_venta foreign key(ID_venta)
+    REFERENCES Venta(ID));
+
+
+
+-----------------------------------
+
+create table Usuarios(
+ID int not null,
+Usuario nvarchar(20) not null,
+Clave nvarchar(25) not null,
+NombreYApellidos nvarchar(60) not null
+constraint pk_Usuarios primary key(id));
+
+create table Roles(
+ID int not null,
+Nombre nvarchar(10) not null
+constraint pk_Roles primary key(ID));
+
+create table UsuariosRoles(
+ID_Usuarios int not null,
+ID_Roles int not null
+constraint pk_UsuariosRoles primary key(ID_Usuarios,ID_Roles),
+constraint fk_id_Usuarios foreign key(ID_Usuarios)
+ references Usuarios(ID),
+ constraint fk_id_Roles foreign key(ID_Roles)
+  references Roles(ID));
+
+create table Perfiles(
+ID int not null,
+Nombre nvarchar(20) not null
+constraint pk_Perfiles primary key(ID));
+
+create table UsuariosPerfiles(
+ID_Usuarios int not null,
+ID_Perfiles int not null
+constraint pk_UsuariosPerfiles primary key(ID_Usuarios,ID_Perfiles),
+constraint fk_id_User foreign key(ID_Usuarios)
+ references Usuarios(ID),
+constraint fk_id_Perfiles foreign key(ID_Perfiles)
+ references Perfiles(ID));
+
+create table Aplicaciones(
+ID int not null,
+Nombre nvarchar(20) not null
+constraint pk_Aplicaciones primary key(ID));
+
+create table Opciones(
+ID int not null,
+Nombre nvarchar(10) not null,
+ID_App int not null
+constraint pk_Opciones primary key(ID),
+constraint fk_id_app foreign key(ID_App)
+ references Aplicaciones(ID));
+
+
+create table Menus(
+ID int not null,
+nombre nvarchar(10) not null,
+des_const int,
+ID_MenuPadre int,
+ID_Aplicacion int not null
+constraint pk_Menus primary key(ID),
+constraint fk_id_menuPadre foreign key(ID_MenuPadre)
+ references Menus(ID),
+constraint fk_id_aplicaciones foreign key(ID_Aplicacion)
+ references Aplicaciones(ID));
+
+ create table PermisosUsuarios(
+ ID_Usuarios int not null,
+ ID_Menus int not null,
+ ID_Opciones int not null,
+ TipoPermiso char(1) not null
+ constraint pk_PermisosUsuarios primary key(ID_Usuarios,ID_Menus, ID_Opciones)
+ constraint fk_id_users foreign key(ID_Usuarios)
+  references Usuarios(ID),
+ constraint fk_id_menus foreign key(ID_Menus)
+  references Menus(ID),
+ constraint fk_id_opciones foreign key(ID_Opciones)
+  references Opciones(ID));
+
+create table PermisosPerfiles(
+ID_Perfil int not null,
+ID_Menu int not null,
+ID_Opcion int not null,
+TipoPermisos char(1) not null
+constraint pk_PermisosPerfiles primary key(ID_Perfil,ID_Menu,ID_Opcion)
+constraint fk_id_perfil foreign key(ID_Perfil)
+ references Perfiles(ID),
+constraint fk_id_menu foreign key(ID_Menu)
+ references Menus(ID),
+constraint fk_id_opcion foreign key(ID_Opcion)
+ references Opciones(ID));

@@ -1,0 +1,136 @@
+create proc PIUsuario
+@Usuario nvarchar(20),
+@Clave nvarchar(25),
+@NombreYApellidos nvarchar(60)
+as
+ declare @ID as int = 0
+begin
+ if not exists(select * from Usuarios) --no existe ningun dato en tabla Usuarios
+ begin
+   set @ID = 1
+ end
+ else
+ begin
+  select @ID = max(ID) from Usuarios
+  set @ID = @ID + 1
+ end
+ insert into Usuarios(ID,Usuario,Clave,NombreYApellidos)
+ values(@ID,@Usuario,@Clave,@NombreYApellidos)
+end;
+
+create proc PIRoles
+@Nombre nvarchar(10)
+as
+ --insertar nuevo rol
+ declare @ID as int = 0
+begin
+ if not exists(select * from Roles)
+ begin
+  set @ID = 1
+ end
+ else
+ begin
+  select @ID = max(ID) from Roles
+  set @ID = @ID + 1
+ end
+ insert into Roles(ID,Nombre)
+ values(@ID,@Nombre)
+end;
+
+create proc PIUsuariosRoles
+@ID_Usuario int,
+@ID_Roles int
+as
+begin
+ insert into UsuariosRoles(ID_Usuarios,ID_Roles)
+ values(@ID_Usuario,@ID_Roles)
+end;
+
+create proc PITipoDoc
+@Descripcion varchar(10)
+as
+ declare @ID int = 0
+begin
+ if not exists(select * from TipoDoc)
+ begin
+  set @ID = 1
+ end
+ else
+ begin
+  select @ID = max(ID) from TipoDoc
+  set @ID = @ID + 1
+ end
+ insert into TipoDoc(ID,Descripcion)
+ values(@ID,@Descripcion)
+end;
+
+create proc PIPersona
+@ID int,
+@Id_TDoc int,
+@Nombres nvarchar(40),
+@Apellidos nvarchar(50),
+@FechaNac date,
+@Direccion nvarchar(50),
+@Telefono_Fijo int,
+@Telefono_Movil bigint,
+@Correo nvarchar(50),
+@Nacionalidad nvarchar(20)
+as
+begin
+ insert into Persona(ID,Id_TDoc,Nombres,Apellidos,FechaNac,Direccion,Telefono_fijo,Telefono_Movil,Correo,Nacionalidad)
+ values(@ID,@Id_TDoc,@Nombres,@Apellidos,@FechaNac,@Direccion,@Telefono_Fijo,@Telefono_Movil,@Correo,@Nacionalidad)
+end;
+
+create proc PICliente
+@ID bigint,
+@Descripcion nvarchar(100)
+as
+begin
+ insert into Cliente(ID,descripcion)
+ values(@ID,@Descripcion)
+end;
+
+create proc PIEmpleado
+@ID bigint,
+@Cargo nvarchar(25),
+@FechaContratacion date,
+@Salario money,
+@Observaciones nvarchar(100)
+as
+begin
+ insert into Empleado(ID,cargo,fechaContratacion,salario,observaciones)
+ values(@ID,@Cargo,@FechaContratacion,@Salario,@Observaciones)
+end;
+
+create proc PIPropiedad
+@Titulo_Propiedad varchar(20),
+@MtsCuadrados int,
+@MtsConstruccion int,
+@Direccion nvarchar(100),
+@ID_Provincia int,
+@CantBanos int,
+@Habitaciones int,
+@PrecioVenta money,
+@PrecioAdquirido money,
+@Observaciones nvarchar(100),
+@EstadoVenta bit,
+@FechaConstruccion date,
+@FechaInscripcion date
+as
+ declare @ID int = 0
+begin
+ if not exists(select * from Propiedad)
+ begin
+  set @ID = 1 
+ end
+ else
+ begin
+  select @ID = max(ID) from Propiedad
+  set @ID = @ID + 1 
+ end
+ insert into Propiedad(ID,Titulo_Propiedad,MtsCuadrados,mtsConstruccion,Direccion,ID_Provincia,CantBanos,
+        Habitaciones,PrecioVenta,PrecioAdquirido,observaciones,estadoVenta,FechaConstruccion,FechaInscripcion)
+ values(@ID,@Titulo_Propiedad,@MtsCuadrados,@MtsConstruccion,@Direccion,@ID_Provincia,@CantBanos,
+        @Habitaciones,@PrecioVenta,@PrecioAdquirido,@Observaciones,@EstadoVenta,@FechaConstruccion,@FechaInscripcion)
+end;
+

@@ -1,0 +1,26 @@
+exec PIUsuario 'Admin','1234','cuenta de administrador';
+exec PIUsuario 'Cliente','1234','cuenta de Cliente';
+exec PIUsuario 'Empleado','1234','cuenta de Empleado';
+
+------------------------------------------------------
+
+exec PIRoles 'Administrador';
+exec PIRoles 'Cliente';
+exec PIRoles 'Empleado';
+
+------------------------------------------------------
+
+exec PIUsuariosRoles 1,1;
+exec PIUsuariosRoles 2,2;
+exec PIUsuariosRoles 3,3;
+
+------------------------------------------------------
+
+exec PITipoDoc 'DNI';
+exec PITipoDoc 'RUC';
+------------------------------------------------------
+exec PIPersona 48597586,1,'alberto','torres','1985-04-12','villa arces f-65',421856,958648521,'123@gmail.com','peruano';
+exec PIPersona 85462595,1,'daniela','ramos','1981-11-18','Pasaje santa Rosa f-65',648529,958495847,'465@gmail.com','peruano';
+exec PIPersona 12345678,1,'raul','caceres','1975-09-22','avenida convenciones g-16',849505,478518954,'789@gmail.com','peruano';
+exec PIPersona 84952816,1,'elsa','manrique','1989-02-09','avenida paisajista t-4',485194,958431625,'916@gmail.com','peruano';
+

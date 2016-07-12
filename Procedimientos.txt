@@ -22,3 +22,12 @@ exec PGIUsuario 1,'Admin','12345','Usuario Administrador'
 exec PGIUsuario 2,'control','12345','Usuario de vista'
 
 -------------------------------------------
+
+create proc PCUsuario
+@Usuario nvarchar(20),
+@Clave nvarchar(25)
+as
+begin
+ select	usuario,Clave,NombreYApellidos from Usuarios
+ where usuario = @Usuario and Clave = @Clave
+end;
